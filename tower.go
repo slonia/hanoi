@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"os/exec"
+)
 
 // code for one Tower
 
@@ -23,28 +27,61 @@ func (t *Tower) Height() int {
 	return len(t.items)
 }
 
-func (t *Tower) Draw() {
-	for _, el := range t.items {
-		fmt.Printf("%d, ", el+1)
+func (t *Tower) DrawLevel(level int, max int) string {
+	str := ""
+	// fmt.Printf("level: %d, items: %d, max: %d\n", level, len(t.items), max)
+	if len(t.items) > 0 && len(t.items) > level {
+		for i := 0; i < t.items[level]+1; i++ {
+			str += "*"
+		}
+		for i := 0; i < max-t.items[level]-1; i++ {
+			str += " "
+		}
+	} else {
+		for i := 0; i < max; i++ {
+			str += " "
+		}
 	}
-	fmt.Println("")
+	return str
 }
 
 // code for GameBoard
 
 type Board struct {
-	a *Tower
-	b *Tower
-	c *Tower
+	a      *Tower
+	b      *Tower
+	c      *Tower
+	height int
 }
 
 func (b *Board) Draw() {
-	fmt.Println("===================")
-	fmt.Println("A")
-	b.a.Draw()
-	fmt.Println("B")
-	b.b.Draw()
-	fmt.Println("C")
-	b.c.Draw()
-	fmt.Println("===================")
+	clear()
+	height := b.height
+	for i := 0; i < height; i++ {
+		s := b.a.DrawLevel(height-i-1, height)
+		s += "    "
+		s += b.b.DrawLevel(height-i-1, height)
+		s += "    "
+		s += b.c.DrawLevel(height-i-1, height)
+		fmt.Println(s)
+	}
+	line := ""
+	for i := 0; i < 3*height+8; i++ {
+		line += "="
+	}
+	fmt.Println(line)
+}
+
+func (b *Board) Init() {
+	for i := b.height - 1; i > -1; i-- {
+		b.a.AddDisk(i)
+	}
+}
+
+// general
+
+func clear() {
+	c := exec.Command("clear")
+	c.Stdout = os.Stdout
+	c.Run()
 }

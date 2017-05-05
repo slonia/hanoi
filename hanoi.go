@@ -2,18 +2,17 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 var board *Board
 
 func main() {
 	var disks int
-	board = &Board{new(Tower), new(Tower), new(Tower)}
 	fmt.Println("Enter number of disks:")
 	fmt.Scanf("%d", &disks)
-	for i := disks - 1; i > -1; i-- {
-		board.a.AddDisk(i)
-	}
+	board = &Board{new(Tower), new(Tower), new(Tower), disks}
+	board.Init()
 	board.Draw()
 	move(board.a.Height(), board.a, board.b, board.c)
 }
@@ -29,4 +28,5 @@ func move(level int, a *Tower, b *Tower, c *Tower) {
 		// board.Draw()
 	}
 	board.Draw()
+	time.Sleep(500 * time.Millisecond)
 }
