@@ -13,20 +13,22 @@ func main() {
 	fmt.Scanf("%d", &disks)
 	board = &Board{new(Tower), new(Tower), new(Tower), disks}
 	board.Init()
-	board.Draw()
-	move(board.a.Height(), board.a, board.b, board.c)
+	moves := 0
+	board.Draw(moves)
+	move(board.a.Height(), board.a, board.b, board.c, &moves)
 }
 
-func move(level int, a *Tower, b *Tower, c *Tower) {
+func move(level int, a *Tower, b *Tower, c *Tower, moves *int) {
+	*moves++
 	if level == 1 {
 		c.AddDisk(a.GetDisk())
 	} else {
 		// b.AddDisk(a.GetDisk())
-		move(level-1, a, c, b)
-		move(1, a, b, c)
-		move(level-1, b, a, c)
+		move(level-1, a, c, b, moves)
+		move(1, a, b, c, moves)
+		move(level-1, b, a, c, moves)
 		// board.Draw()
 	}
-	board.Draw()
+	board.Draw(*moves)
 	time.Sleep(500 * time.Millisecond)
 }

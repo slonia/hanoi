@@ -54,7 +54,7 @@ type Board struct {
 	height int
 }
 
-func (b *Board) Draw() {
+func (b *Board) Draw(moves int) {
 	clear()
 	height := b.height
 	for i := 0; i < height; i++ {
@@ -70,6 +70,7 @@ func (b *Board) Draw() {
 		line += "="
 	}
 	fmt.Println(line)
+	fmt.Printf("Moves: %d\n", moves)
 }
 
 func (b *Board) Init() {
