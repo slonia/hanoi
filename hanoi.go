@@ -4,44 +4,29 @@ import (
 	"fmt"
 )
 
+var board *Board
+
 func main() {
 	var disks int
-	a := new(Tower)
-	b := new(Tower)
-	c := new(Tower)
+	board = &Board{new(Tower), new(Tower), new(Tower)}
 	fmt.Println("Enter number of disks:")
 	fmt.Scanf("%d", &disks)
-	for i := 0; i < disks; i++ {
-		a.AddDisk(i)
+	for i := disks - 1; i > -1; i-- {
+		board.a.AddDisk(i)
 	}
-	DrawTowers(a, b, c)
-	move(a.Height(), a, b, c)
+	board.Draw()
+	move(board.a.Height(), board.a, board.b, board.c)
 }
 
 func move(level int, a *Tower, b *Tower, c *Tower) {
-	if level == 0 {
-		bHeight := b.Height()
-		if bHeight != 0 {
-			move(bHeight, b, a, c)
-		}
-	} else if level == 1 {
+	if level == 1 {
 		c.AddDisk(a.GetDisk())
-		move(0, a, b, c)
-	} else if level%2 == 0 {
+	} else {
 		// b.AddDisk(a.GetDisk())
 		move(level-1, a, c, b)
-	} else {
-		// c.AddDisk(a.GetDisk())
-		move(level-1, a, b, c)
+		move(1, a, b, c)
+		move(level-1, b, a, c)
+		// board.Draw()
 	}
-	DrawTowers(a, b, c)
-}
-
-func DrawTowers(a *Tower, b *Tower, c *Tower) {
-	fmt.Println("A")
-	a.Draw()
-	fmt.Println("B")
-	b.Draw()
-	fmt.Println("C")
-	c.Draw()
+	board.Draw()
 }

@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// code for one Tower
+
 type Tower struct {
 	items []int
 }
@@ -23,7 +25,26 @@ func (t *Tower) Height() int {
 
 func (t *Tower) Draw() {
 	for _, el := range t.items {
-		fmt.Printf("%d ", el+1)
+		fmt.Printf("%d, ", el+1)
 	}
 	fmt.Println("")
+}
+
+// code for GameBoard
+
+type Board struct {
+	a *Tower
+	b *Tower
+	c *Tower
+}
+
+func (b *Board) Draw() {
+	fmt.Println("===================")
+	fmt.Println("A")
+	b.a.Draw()
+	fmt.Println("B")
+	b.b.Draw()
+	fmt.Println("C")
+	b.c.Draw()
+	fmt.Println("===================")
 }
