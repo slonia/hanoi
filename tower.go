@@ -30,7 +30,7 @@ func (t *Tower) Height() int {
 func (t *Tower) DrawLevel(level int, max int) string {
 	str := ""
 	// fmt.Printf("level: %d, items: %d, max: %d\n", level, len(t.items), max)
-	if len(t.items) > 0 && len(t.items) > level {
+	if t.Height() > 0 && t.Height() > level {
 		for i := 0; i < t.items[level]+1; i++ {
 			str += "*"
 		}

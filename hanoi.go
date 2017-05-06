@@ -19,15 +19,15 @@ func main() {
 }
 
 func move(level int, a *Tower, b *Tower, c *Tower, moves *int) {
-	*moves++
 	if level == 1 {
-		c.AddDisk(a.GetDisk())
+		if a.Height() > 0 {
+			c.AddDisk(a.GetDisk())
+			*moves++
+		}
 	} else {
-		// b.AddDisk(a.GetDisk())
 		move(level-1, a, c, b, moves)
 		move(1, a, b, c, moves)
 		move(level-1, b, a, c, moves)
-		// board.Draw()
 	}
 	board.Draw(*moves)
 	time.Sleep(500 * time.Millisecond)
