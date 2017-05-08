@@ -29,18 +29,16 @@ func (t *Tower) Height() int {
 
 func (t *Tower) DrawLevel(level int, max int) string {
 	str := ""
-	// fmt.Printf("level: %d, items: %d, max: %d\n", level, len(t.items), max)
+	starsCount := 0
 	if t.Height() > 0 && t.Height() > level {
-		for i := 0; i < t.items[level]+1; i++ {
-			str += "*"
-		}
-		for i := 0; i < max-t.items[level]-1; i++ {
-			str += " "
-		}
-	} else {
-		for i := 0; i < max; i++ {
-			str += " "
-		}
+		starsCount = t.items[level] + 1
+	}
+	spaceCount := max - starsCount
+	for i := 0; i < starsCount; i++ {
+		str += "*"
+	}
+	for i := 0; i < spaceCount; i++ {
+		str += " "
 	}
 	return str
 }
@@ -58,11 +56,12 @@ func (b *Board) Draw(moves int) {
 	clear()
 	height := b.height
 	for i := 0; i < height; i++ {
-		s := b.a.DrawLevel(height-i-1, height)
+		level := height - i - 1
+		s := b.a.DrawLevel(level, height)
 		s += "    "
-		s += b.b.DrawLevel(height-i-1, height)
+		s += b.b.DrawLevel(level, height)
 		s += "    "
-		s += b.c.DrawLevel(height-i-1, height)
+		s += b.c.DrawLevel(level, height)
 		fmt.Println(s)
 	}
 	line := ""
